@@ -1,5 +1,7 @@
 package ru.tcreator.server;
 
+import ru.tcreator.parser.Request;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,13 +29,11 @@ public class ServerHandler implements Runnable {
     @Override
     public void run() {
             try {
-                System.out.println(Thread.currentThread().getName());
                 String requestLine = in.readLine();
-                String[] parts = requestLine.split(" ");
-                System.out.println(Arrays.toString(parts));
+                Request request = new Request(requestLine);
 
-                String path = parts[1];
-                // Если не совпадает с существующимим путями, значит 404
+                String path = "parts[1]";
+                // Если не совпадает с существующим им путями, значит 404
                 if (!validPaths.contains(path)) {
                     out.write((
                             getHeadersBad()
@@ -55,7 +55,7 @@ public class ServerHandler implements Runnable {
                 out.flush();
 
             } catch (IOException e) {
-                System.out.println(e.getMessage());
+                //System.out.println(e.getMessage());
             }
 
     }
