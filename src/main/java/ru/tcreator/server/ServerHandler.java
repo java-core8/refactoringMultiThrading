@@ -30,8 +30,9 @@ public class ServerHandler implements Runnable {
     public void run() {
             try {
                 String requestLine = in.readLine();
-                Request request = new Request(requestLine);
-
+                String[] sequenceQueryAndPath = requestLine.split("/?");
+                String sourceString = sequenceQueryAndPath[0];
+                Request request = new Request(sourceString);
                 String path = "parts[1]";
                 // Если не совпадает с существующим им путями, значит 404
                 if (!validPaths.contains(path)) {
