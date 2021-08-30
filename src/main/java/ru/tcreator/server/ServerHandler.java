@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
 
 public class ServerHandler implements Runnable {
@@ -30,10 +29,12 @@ public class ServerHandler implements Runnable {
     public void run() {
             try {
                 String requestLine = in.readLine();
-                String[] sequenceQueryAndPath = requestLine.split("/?");
-                String sourceString = sequenceQueryAndPath[0];
-                Request request = new Request(sourceString);
-                String path = "parts[1]";
+                Request request = new Request(requestLine);
+                String path = (request.getSource()).equals("/")
+                        ? "/index.html" : request.getSource();
+
+
+                System.out.println(request.getQueryParam("param"));
                 // Если не совпадает с существующим им путями, значит 404
                 if (!validPaths.contains(path)) {
                     out.write((
